@@ -1,0 +1,16 @@
+<h1>Hello Skybox!</h1>
+<div class="card">
+  <div class="card-body">
+    <% if user_signed_in? %> 
+      <div class="card-text">Welcome <%= current_user.email %></div> 
+      <%
+=begin%>
+ <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-primary" %>  
+<%
+=end%>
+    <% else %>
+      <%= button_to "Sign in", new_user_session_path, class: "btn btn-primary" %> 
+      <%= link_to "Sign in with Facebook", user_facebook_omniauth_authorize_path, method: :post %>
+    <% end %>
+  </div>
+</div>

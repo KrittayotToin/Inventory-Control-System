@@ -1,0 +1,12 @@
+<h1>Member#edit</h1>
+<%= form_with(model: @member, url: update_member_path(@member), method: :put) do |form| %>
+
+
+  <%= form.text_field :member_code, placeholder: "member_code" %>
+  <%= form.text_field :member_name, placeholder: "member_name" %>
+  <%= form.text_field :member_phone, placeholder: "member_phone" %>
+  <%= form.text_field :member_email, placeholder: "member_email" %>
+  <%= form.text_field :member_department, placeholder: "member_department" %>
+  <%= form.submit %>
+<% end %>
+

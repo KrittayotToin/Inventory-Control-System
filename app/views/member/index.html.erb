@@ -1,0 +1,59 @@
+<h1>Member#index</h1>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Department</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @members.each do |member| %>
+        <tr>
+          <td><%= member.member_code %></td>
+          <td><%= member.member_name %></td>
+          <td><%= member.member_phone %></td>
+          <td><%= member.member_email %></td>
+          <td><%= member.member_department%></td>
+          <td><%= link_to "Show", show_member_path(member), class: "btn btn-success"%></td>
+          <td><%= link_to "Edit", edit_member_path(member),  class: "btn btn-warning"%></td>
+          <td><%= link_to "Destroy", delete_member_path(member),class: "btn btn-danger", method: :delete, data: { confirm: "Are you sure to delete #{member.member_code}?" } %></td> 
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+ 
+ <div class="d-flex justify-content-center mt-3">
+  <%= will_paginate @members,
+    previous_label: '<button type="button" class="btn btn-secondary ">&laquo; prev</button>',
+    next_label: '<button type="button" class="btn btn-secondary">next &raquo;</button>',
+    page_links: false,
+    container: true,
+    renderer: BootstrapPagination::Rails %>
+</div>
+
+
+
+
+  
+
+  <%= link_to "New member", new_member_path , class: "btn btn-primary"%> 
+</div>
+
+
+<style>
+  .pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .pagination .btn {
+    margin-right: 10px;
+  }
+</style>

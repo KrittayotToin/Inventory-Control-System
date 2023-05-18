@@ -1,0 +1,39 @@
+<h1>Dashboard#index</h1>
+
+<div class="row justify-content-center">
+  <div class="col-md-3 mb-3">
+    <div class="card" style="width: 18rem;">
+  <img src="<%= asset_path('fat_cat_grey_angry_GT_CROP.jpeg') %>" alt="Angry Grey Cat">
+  <div class="card-body">
+    <h5 class="card-title">Equipment</h5>
+   <p class="card-text">We have <%= @equipments %> equipment(s) in stock.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+  </div>
+
+  <div class="col-md-3 mb-3">
+    <div class="card" style="width: 18rem;">
+  <img src="<%= asset_path('mootoo.jpeg') %>" alt="Angry Grey Cat">
+  <div class="card-body">
+    <h5 class="card-title">Member</h5>
+    <p class="card-text">We have <%= @members %> member(s) in system.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+  </div>
+
+  <div class="col-md-3 mb-3">
+    <div class="card" style="width: 18rem;">
+  <img src="<%= asset_path('mikey.jpg') %>" alt="Angry Grey Cat">
+  <div class="card-body">
+    <h5 class="card-title">Total Borrowed</h5>
+    <p class="card-text">We have Borrowed <%= @logs %> equipment(s).</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+  </div>
+</div>
+
+
+

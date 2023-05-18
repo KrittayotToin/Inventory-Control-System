@@ -1,0 +1,80 @@
+<h1>Equipment#index</h1>
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Serial Number</th>
+        <th>status</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @equipments.each do |equipment| %>
+        <tr>
+          <td>
+            <%= equipment.equipment_code %>
+          </td>
+          <td>
+            <%= equipment.equipment_name %>
+          </td>
+          <td>
+            <%= equipment.equipment_type %>
+          </td>
+          <td>
+            <%= equipment.equipment_serial_number %>
+          </td>
+          <td>
+            <%= equipment.equipment_status %>
+          </td>
+          <td>
+            <%= link_to "Show" , show_equipment_path(equipment), class: "btn btn-success" %>
+          </td>
+          <td>
+            <%= link_to "Edit" , edit_equipment_path(equipment), class: "btn btn-warning" %>
+          </td>
+          <td>
+            <%= link_to "Destroy" , delete_equipment_path(equipment),class: "btn btn-danger" , method: :delete, data: {
+              confirm: "Are you sure to delete #{equipment.equipment_code}?" } %>
+          </td>
+        </tr>
+        <% end %>
+    </tbody>
+  </table>
+
+
+  <div class="d-flex justify-content-center mt-3">
+
+    <%= will_paginate @equipments,
+      previous_label: '<button type="button" class="btn btn-secondary ">&laquo; prev</button>' ,
+      next_label: '<button type="button" class="btn btn-secondary">next &raquo;</button>' , page_links: false,
+      container: true, renderer: BootstrapPagination::Rails %>
+  </div>
+
+  <% if current_user && current_user.admin? %>
+  <%= link_to "New Equipment" , new_equipment_path , class: "btn btn-primary" %>
+  <% else %>
+  <!-- Code to display for non-admin users -->
+  <p>Please <a href="<%= new_user_session_path %>">login</a> to continue.</p>
+<% end %>
+  <%
+=begin%>
+ <%= link_to "New Equipment" , new_equipment_path , class: "btn btn-primary" %> 
+<%
+=end%>
+
+</div>
+
+<style>
+  .pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .pagination .btn {
+    margin-right: 10px;
+  }
+</style>

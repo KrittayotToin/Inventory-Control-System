@@ -1,0 +1,36 @@
+<div class="card">
+  <h5 class="card-header">Detail#show</h5>
+  <div class="card-body">
+    <h5 class="card-title">Equipment Details</h5>
+    <% if @equipment %>
+      <table class="table">
+        <tbody>
+          <tr>
+            <td><strong>Code:</strong></td>
+            <td><%= @equipment.equipment_code %></td>
+          </tr>
+          <tr>
+            <td><strong>Name:</strong></td>
+            <td><%= @equipment.equipment_name %></td>
+          </tr>
+          <tr>
+            <td><strong>Type:</strong></td>
+            <td><%= @equipment.equipment_type %></td>
+          </tr>
+          <tr>
+            <td><strong>Serial Number:</strong></td>
+            <td><%= @equipment.equipment_serial_number %></td>
+          </tr>
+          <tr>
+            <td><strong>Amount:</strong></td>
+            <td><%= @equipment.equipment_amount %></td>
+          </tr>
+        </tbody>
+      </table>
+    <% else %>
+      <p>No equipment found.</p>
+    <% end %>
+  </div>
+ <%= link_to "Home", equipment_path, class: "btn btn-primary" %>
+
+</div>

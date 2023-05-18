@@ -1,0 +1,36 @@
+<div class="card">
+  <h5 class="card-header">Detail#show</h5>
+  <div class="card-body">
+    <h5 class="card-title">member Details</h5>
+    <% if @member %>
+      <table class="table">
+        <tbody>
+          <tr>
+            <td><strong>Code:</strong></td>
+            <td><%= @member.member_code %></td>
+          </tr>
+          <tr>
+            <td><strong>Name:</strong></td>
+            <td><%= @member.member_name %></td>
+          </tr>
+          <tr>
+            <td><strong>Type:</strong></td>
+            <td><%= @member.member_phone %></td>
+          </tr>
+          <tr>
+            <td><strong>Serial Number:</strong></td>
+            <td><%= @member.member_email %></td>
+          </tr>
+          <tr>
+            <td><strong>Amount:</strong></td>
+            <td><%= @member.member_department %></td>
+          </tr>
+        </tbody>
+      </table>
+    <% else %>
+      <p>No Member found.</p>
+    <% end %>
+  </div>
+ <%= link_to "Home", member_path, class: "btn btn-primary" %>
+
+</div>

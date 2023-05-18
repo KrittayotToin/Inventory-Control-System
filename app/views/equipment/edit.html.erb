@@ -1,0 +1,11 @@
+<h1>Equipment#edit</h1>
+<%= form_with(model: @equipment, url: update_equipment_path(@equipment), method: :put) do |form| %>
+
+
+  <%= form.text_field :equipment_code, placeholder: "equipment_code" %>
+    <%= form.text_field :equipment_name, placeholder: "equipment_name" %>
+      <%= form.text_field :equipment_type, placeholder: "equipment_type" %>
+        <%= form.text_field :equipment_serial_number, placeholder: "equipment_serial_number" %>
+          <%= form.text_field :equipment_amount, placeholder: "equipment_amount" %>
+            <%= form.submit %>
+              <% end %>

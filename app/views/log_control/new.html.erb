@@ -1,0 +1,27 @@
+<h1>LogControl#new</h1>
+<div style="display: inline-flex;">
+  <form id="log-form" action="/logs" method="POST">
+    <label for="equipment-search">Equipment:</label>
+    <select id="equipment-search" class="form-control" style="width: 200px;" name="equipment">
+      <option value="">Select equipment...</option>
+      <% Equipment.where(equipment_status: 'Available' ).each do |equipment| %>
+        <option value="<%= equipment.id %>,<%= equipment.equipment_name %>">
+          <%= equipment.equipment_name %>
+        </option>
+      <% end %>
+    </select>
+      
+    <label for="member-search">Member:</label>
+    <select id="member-search" class="form-control" style="width: 200px;" name="member">
+      <option value="">Select member...</option>
+      <% Member.all.each do |member| %>
+        <option value="<%= member.id %>,<%= member.member_name %>">
+          <%= member.member_name %>
+        </option>
+      <% end %>
+    </select>
+
+    <button type="submit" class="btn btn-primary">Add</button>
+  </form>
+</div>
+
