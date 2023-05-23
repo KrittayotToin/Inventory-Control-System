@@ -55,9 +55,7 @@
 
   <% if current_user && current_user.admin? %>
   <%= link_to "New Equipment" , new_equipment_path , class: "btn btn-primary" %>
-  <% else %>
-  <!-- Code to display for non-admin users -->
-  <p>Please <a href="<%= new_user_session_path %>">login</a> to continue.</p>
+  
 <% end %>
   <%
 =begin%>

@@ -1,4 +1,6 @@
-<h1>Hello Skybox!</h1>
+ <div class= "d-flex justify-content-center p-3 mb-2 bg-dark text-white">
+  <img src="<%= asset_path('cat-star.jpeg') %>" alt=" Cat Star">
+  </div >
 <div class="card">
   <div class="card-body">
     <% if user_signed_in? %> 
@@ -10,7 +12,18 @@
 =end%>
     <% else %>
       <%= button_to "Sign in", new_user_session_path, class: "btn btn-primary" %> 
-      <%= link_to "Sign in with Facebook", user_facebook_omniauth_authorize_path, method: :post %>
+      <%
+=begin%>
+ <%= link_to "Sign in with Facebook", user_facebook_omniauth_authorize_path, method: :post %> 
+<%
+=end%>
     <% end %>
   </div>
+
+</div>
+  <div class="welcome-message">
+  <h2>Welcome to Our Website!</h2>
+  <p>Thank you for visiting our website. We're delighted to have you here and we hope you'll have a great experience exploring our content and features.</p>
+  <p>Feel free to browse through our various sections, engage with our community, and take advantage of the resources we provide. If you have any questions or need assistance, our team is here to help.</p>
+  <p>Enjoy your time on our website and make the most of what we have to offer. We appreciate your support and look forward to serving you.</p>
 </div>

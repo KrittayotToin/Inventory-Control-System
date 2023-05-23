@@ -33,6 +33,14 @@ gem 'toastr_rails'
 gem 'notify-on-rails'
 gem 'will_paginate-bootstrap', '~> 1.0'
 
+#excel
+gem 'roo'
+gem 'spreadsheet'
+
+
+
+
+
 gem 'colorize'
 
 

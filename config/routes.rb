@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
  # config/routes.rb
 
- devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
+ devise_for :users, controllers: {
+  omniauth_callbacks: 'omniauth_callbacks',
+  sessions: 'users/sessions',
+  registrations: 'users/registrations',
+  passwords: 'users/passwords'
+}
 #  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 #  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
@@ -9,6 +14,10 @@ Rails.application.routes.draw do
 
   root 'home#index'
   get 'dashboard/index'
+
+  #excel upload
+  post '/process_excel', to: 'equipment#process_excel' 
+  get '/equipments/excel' ,to: 'equipment#excel', as: 'equipment_excel'
   # get 'log_control/index'
   # get 'log_control/new'
   # get 'log_control/create'
