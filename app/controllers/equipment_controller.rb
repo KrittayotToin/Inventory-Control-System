@@ -1,5 +1,5 @@
 require 'roo'
-require 'axlsx'
+
 
 class EquipmentController < ApplicationController
   before_action :authenticate_user!
@@ -77,26 +77,6 @@ class EquipmentController < ApplicationController
         redirect_to equipment_index_path
   end
   
-def export_to_excel
-  p = Axlsx::Package.new
-  wb = p.workbook
-
-  wb.add_worksheet(name: 'Equipment Data') do |sheet|
-    sheet.add_row(['Name', 'Code', 'Serial Number', 'Type'])
-
-    @equipment = Equipment.all
-
-    @equipment.each do |equipment|
-
-      sheet.add_row([equipment.equipment_name, equipment.equipment_code, equipment.equipment_serial_number, equipment.equipment_type])
-    end
-  end
-
-  file_path = Rails.root.join('public', 'equipment_data.xlsx')
-  p.serialize(file_path)
-
-  send_file file_path, filename: 'equipment_data.xlsx', type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-end
 
 
   def process_excel
@@ -130,8 +110,32 @@ end
     # Perform any required operations with each data_row
   end
 
+    # Combine the keys and values into a hash
+  #   @data = Hash[keys.zip(values)]
+  #   data = Hash[keys.zip(values)]
+
+  #   puts "!!!!!!!!!!!!!!!: #{data}"
+  #     # Log the data
+  #   Rails.logger.info("Extracted data: #{data}")
+
+  #   equipment_code = data['equipment_code']
+  #   equipment = Equipment.find_by(equipment_code: equipment_code)
+
+  #  if equipment
+  #   equipment.update(equipment_code: data["equipment_code"], equipment_name: data["equipment_name"], equipment_type: data["equipment_type"], equipment_serial_number: data["equipment_serial_number"])
+  #   flash[:success] = "Equipment was successfully updated by excel."
+  #   render 'show_data'
+  #   else
+  #     flash[:error] = "There was an error updating the equipment."
+  #     render :edit
+  #   end
+    # Update the data in the database
+    
+
+
+    # Render the view to display the data
+    # render 'show_data'
   end
-  
   
 
   private
@@ -139,7 +143,6 @@ end
   def equipment_params
     params.require(:equipment).permit(:equipment_code, :equipment_name, :equipment_type, :equipment_serial_number, :equipment_amount)
   end
-
 end
 
 
