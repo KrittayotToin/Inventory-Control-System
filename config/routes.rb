@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   #excel upload
   post '/process_excel', to: 'equipment#process_excel' 
   get '/equipments/excel' ,to: 'equipment#excel', as: 'equipment_excel'
+  get '/equipments/export_excel' ,to: 'equipment#export_to_excel', as: 'export_to_excel_equipment'
+  # get '/equipments/export_excel', to: 'equipment#export_to_excel',as:'export_to_excel_equipment', 
   # get 'log_control/index'
   # get 'log_control/new'
   # get 'log_control/create'
