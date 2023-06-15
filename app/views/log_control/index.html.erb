@@ -1,35 +1,30 @@
 <%
 =begin%>
- <div style="display: inline-flex;">
-  <form id="log-form" action="/logs" method="POST">
-    <label for="equipment-search">Equipment:</label>
-    <select id="equipment-search" class="form-control" style="width: 200px;" name="equipment">
-      <option value="">Select equipment...</option>
-      <% Equipment.where(equipment_status: 'Available' ).each do |equipment| %>
-        <option value="<%= equipment.id %>,<%= equipment.equipment_name %>">
-          <%= equipment.equipment_name %>
-        </option>
-      <% end %>
-    </select>
-      
-    <label for="member-search">Member:</label>
-    <select id="member-search" class="form-control" style="width: 200px;" name="member">
-      <option value="">Select member...</option>
-      <% Member.all.each do |member| %>
-        <option value="<%= member.id %>,<%= member.member_name %>">
-          <%= member.member_name %>
-        </option>
-      <% end %>
-    </select>
-
-    <button type="submit" class="btn btn-primary">Add</button>
-  </form>
-</div> 
+<div style="display: inline-flex;">
+    <form id="log-form" action="/logs" method="POST">
+        <label for="equipment-search">Equipment:</label>
+        <select id="equipment-search" class="form-control" style="width: 200px;" name="equipment">
+            <option value="">Select equipment...</option>
+            <% Equipment.where(equipment_status: 'Available' ).each do |equipment| %>
+            <option value="<%= equipment.id %>,<%= equipment.equipment_name %>">
+                <%= equipment.equipment_name %>
+            </option>
+            <% end %>
+        </select>
+        <label for="member-search">Member:</label>
+        <select id="member-search" class="form-control" style="width: 200px;" name="member">
+            <option value="">Select member...</option>
+            <% Member.all.each do |member| %>
+            <option value="<%= member.id %>,<%= member.member_name %>">
+                <%= member.member_name %>
+            </option>
+            <% end %>
+        </select>
+        <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+</div>
 <%
 =end%>
-
-
-
 <table class="table">
     <thead>
         <tr>
@@ -41,91 +36,82 @@
     </thead>
     <tbody>
         <% @logs.each do |log| %>
-            <tr>
-                <td>
-                    <%= log.equipment ? log.equipment.equipment_name : "Unknown equipment" %>
-                </td>
-                <td>
-                    <%= log.member.member_name %>
-                </td>
-                <td>
-                    <%= log.log_status %>
-                </td>
-                <td>
-                    <%= log.log_date %>
-                </td>
-                <td>
-                    <%= link_to 'Return', return_equipment_path(log), method: :patch %>
-                </td>
-            </tr>
-            <% end %>
+        <tr>
+            <td>
+                <%= log.equipment ? log.equipment.equipment_name : "Unknown equipment" %>
+            </td>
+            <td>
+                <%= log.member.member_name %>
+            </td>
+            <td>
+                <%= log.log_status %>
+            </td>
+            <td>
+                <%= log.created_at.strftime("%Y-%m-%d ") %>
+                <!-- or .to_date-->
+            </td>
+            <td>
+                <%= link_to 'Return', return_equipment_path(log), method: :patch %>
+            </td>
+        </tr>
+        <% end %>
     </tbody>
 </table>
-
 <div class="d-flex justify-content-center mt-3">
     <%= will_paginate @logs, previous_label: '<button type="button" class="btn btn-secondary ">&laquo; prev</button>' ,
         next_label: '<button type="button" class="btn btn-secondary">next &raquo;</button>' , page_links: false,
         container: true, renderer: BootstrapPagination::Rails %>
 </div>
-
-  <%= link_to "New Log", new_log_control_path, class: "btn btn-primary pull-right" %>
+<%= link_to "New Log", new_log_control_path, class: "btn btn-primary pull-right" %>
 <script>
-        
-
-        //get member data
-        $(document).ready(function () {
-            $.ajax({
-                url: '/member_names',
-                success: function (data) {
-                    $('#member-search').typeahead({
-                        source: data.map(function (member) {
-                            return {
-                                id: member[0],
-                                name: member[1]
-                            };
-                        }),
-                        displayText: 'name'
-                    });
-                }
+//get member data
+$(document).ready(function() {
+    $.ajax({
+        url: '/member_names',
+        success: function(data) {
+            $('#member-search').typeahead({
+                source: data.map(function(member) {
+                    return {
+                        id: member[0],
+                        name: member[1]
+                    };
+                }),
+                displayText: 'name'
             });
+        }
+    });
+});
+
+$(document).ready(function() {
+    $('#log-form').submit(function(event) {
+        event.preventDefault(); // Prevent the form from submitting normally
+        var equipment = $('#equipment-search').val().split(',');
+        var equipmentId = equipment[0];
+        var equipmentName = equipment[1];
+        $.post('/logs', { equipment_id: equipmentId, equipment_name: equipmentName }, function(data) {
+            // Do something with the response data, e.g. update the log table
         });
+    });
 
-            $(document).ready(function () {
-                $('#log-form').submit(function (event) {
-                    event.preventDefault(); // Prevent the form from submitting normally
-                    var equipment = $('#equipment-search').val().split(',');
-                    var equipmentId = equipment[0];
-                    var equipmentName = equipment[1];
-                    $.post('/logs', { equipment_id: equipmentId, equipment_name: equipmentName }, function (data) {
-                        // Do something with the response data, e.g. update the log table
-                    });
-                });
-
-                $('#log-form2').submit(function (event) {
-                    event.preventDefault(); // Prevent the form from submitting normally
-                    var member = $('#member-search').val().split(',');
-                    var memberId = member[0];
-                    var memberName = member[1];
-                    $.post('/logs', { member_id: memberId, member_name: memberName }, function (data) {
-                        // Do something with the response data, e.g. update the log table
-                    });
-                });
-            });
-
-
-
-
+    $('#log-form2').submit(function(event) {
+        event.preventDefault(); // Prevent the form from submitting normally
+        var member = $('#member-search').val().split(',');
+        var memberId = member[0];
+        var memberName = member[1];
+        $.post('/logs', { member_id: memberId, member_name: memberName }, function(data) {
+            // Do something with the response data, e.g. update the log table
+        });
+    });
+});
 </script>
-
-
 <style>
-    .pagination {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-    .pagination .btn {
-        margin-right: 10px;
-    }
+.pagination .btn {
+    margin-right: 10px;
+}
 </style>

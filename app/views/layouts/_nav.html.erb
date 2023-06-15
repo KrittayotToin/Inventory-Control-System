@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <span class="navbar-brand mb-0 h1">SKYBOX</span>
+  <span class="navbar-brand mb-0 ml-3 h1">SKYBOX</span>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
     aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -34,6 +34,13 @@
         <%= link_to "Inventory" , log_control_index_path, class: "nav-link" %>
          <%else%>
         <%= link_to "Inventory" , root_path, class: "nav-link" %>
+    <%end%>
+      </li> 
+      <li class="nav-item">
+      <% if current_user && current_user.admin? %>
+        <%= link_to "Plan" , plan_index_path, class: "nav-link" %>
+         <%else%>
+        <%= link_to "Plan" , root_path, class: "nav-link" %>
     <%end%>
       </li>
     </ul>

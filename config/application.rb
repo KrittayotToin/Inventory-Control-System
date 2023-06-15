@@ -1,6 +1,10 @@
 require_relative 'boot'
-
+require 'colorize'
+require 'json'
+require 'date'
 require 'rails/all'
+require 'axlsx'
+require 'roo'
 
 Bundler.require(*Rails.groups)
 

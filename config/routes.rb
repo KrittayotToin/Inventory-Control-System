@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   #excel upload
   post '/process_excel', to: 'equipment#process_excel' 
+  post '/plan_excel', to: 'plan#process_excel' 
   get '/equipments/excel' ,to: 'equipment#excel', as: 'equipment_excel'
   get '/equipments/export_excel' ,to: 'equipment#export_to_excel', as: 'export_to_excel_equipment'
   # get '/equipments/export_excel', to: 'equipment#export_to_excel',as:'export_to_excel_equipment', 
@@ -48,6 +49,7 @@ Rails.application.routes.draw do
   get '/equipment/new', to: 'equipment#new', as: 'new_equipment'
   get '/equipment/:id', to: 'equipment#show', as: 'show_equipment'
   get '/equipment/:id/edit', to: 'equipment#edit', as: 'edit_equipment'
+  post '/equipment/change_by_input', to: 'equipment#change_by_input'
   post '/equipment', to: 'equipment#create'
   put '/equipment/:id', to: 'equipment#update', as: 'update_equipment'
   delete '/equipment/:id', to: 'equipment#destroy', as: 'delete_equipment'
@@ -56,6 +58,12 @@ Rails.application.routes.draw do
   get '/equipment_names', to: 'equipment#equipment_names'
   get '/member_names', to: 'member#member_names'
 
+
+  get '/plan', to: 'plan#index', as: 'plan_index'
+  post '/plan/update', to: 'plan#update'
+
+
+  
 
 
 

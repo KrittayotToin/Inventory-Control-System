@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 1
+  name: MyString
+  fee: 9.99
+  created_at: 2023-05-29 15:44:09
+  updated_at: 2023-05-29 15:44:09
+  package: MyText
+  cod_minimum_fee: 9.99
+  cod_percentage_fee: 9.99
+  ccod_percentage_fee: 9.99
+  price_type: MyString
+  cod_percent: 1.5
+
+two:
+  id: 1
+  name: MyString
+  fee: 9.99
+  created_at: 2023-05-29 15:44:09
+  updated_at: 2023-05-29 15:44:09
+  package: MyText
+  cod_minimum_fee: 9.99
+  cod_percentage_fee: 9.99
+  ccod_percentage_fee: 9.99
+  price_type: MyString
+  cod_percent: 1.5

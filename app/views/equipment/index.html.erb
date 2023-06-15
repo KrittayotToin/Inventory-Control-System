@@ -1,3 +1,4 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <h1>Equipment#index</h1>
 <div class="table-responsive">
   <table class="table">
@@ -64,9 +65,77 @@
 =end%>
 
 <%= link_to 'Export to Excel', export_to_excel_equipment_path, class: 'btn btn-primary' %>
-
+<%= link_to 'Upload Excel', equipment_excel_path, class: 'btn btn-primary' %>
 
 </div>
+<%= @day %><br>
+<%= @now %> 
+
+<div class="d-flex flex-row gap-4">
+  <% @equipments.each do |equipment| %>
+    <div class="card custom-card-width">
+      <div class="card-body">
+        <h5 class="card-title"><%= equipment.equipment_code %></h5>
+        <p class="card-text">Name:
+          <input type="text" name="equipments[][equipment_name]" value="<%= equipment.equipment_name %>" class="form-control form-control-sm input-width">
+        </p>
+        <p class="card-text">Type:
+          <input type="text" name="equipments[][equipment_type]" value="<%= equipment.equipment_type %>" class="form-control form-control-sm input-width">
+        </p>
+        <p class="card-text">Serial Number:
+          <input type="text" name="equipments[][equipment_serial_number]" value="<%= equipment.equipment_serial_number %>" class="form-control form-control-sm input-width">
+        </p>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<button class="btn btn-primary update-btn mt-2">Update</button>
+
+<script>
+  $(document).ready(function() {
+    $('.update-btn').click(function() {
+      var formData = [];
+
+      $('.card').each(function(index, card) {
+        var equipment = {};
+        equipment.equipment_code = $(card).find('h5').text();
+        //we also can create class property in input and $(card).find('.equipment-name-input').val();
+        equipment.equipment_name = $(card).find('input[name^="equipments"][name$="[equipment_name]"]').val();
+        equipment.equipment_type = $(card).find('input[name^="equipments"][name$="[equipment_type]"]').val();
+        equipment.equipment_serial_number = $(card).find('input[name^="equipments"][name$="[equipment_serial_number]"]').val();
+
+        // console.log('equipment:', equipment)
+        formData.push(equipment);
+        console.log('form:', formData)
+
+      });
+
+       var jsonData = JSON.stringify(formData); // Convert formData to JSON
+       console.log('jsonData:', jsonData)
+
+      $.ajax({
+        url: '/equipment/change_by_input',
+        method: 'POST',
+        data: { equipments: jsonData },
+        success: function(response) {
+          console.log('Equipment updated successfully');
+          // Handle success response
+          console.log(response);
+        },
+        error: function(xhr, status, error) {
+          console.log('Failed to update equipment');
+          // Handle error response
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
 
 <style>
   .pagination {
@@ -77,5 +146,13 @@
 
   .pagination .btn {
     margin-right: 10px;
+  }
+
+   .input-width {
+    width: 200px; /* Set your desired width */
+  }
+
+  .custom-card-width {
+    width: 300px; /* Set your desired width */
   }
 </style>

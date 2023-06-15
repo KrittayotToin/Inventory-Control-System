@@ -1,0 +1,562 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Upload Plan Excel -->
+<form action="/plan_excel" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+    <%= csrf_meta_tags %>
+    <label for="excel_file">Upload Excel File:</label>
+    <input type="file" name="excel_file" id="excel_file">
+    <input type="submit" value="Submit">
+</form>
+
+<!-- Text underline to trigger the modal -->
+<span style="text-decoration: underline; cursor: pointer; color: blue;" data-bs-toggle="modal" data-bs-target="#myModal">
+    How to upload file.
+</span>
+<!-- Modal without title, only modal body -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>กรุณาตรวจสอบไฟล์ของท่านให้ถูกต้องก่อนที่จะอัพโหลด</p><br>
+                <p>เพื่อป้องกันข้อผิดพลาดในการแก้ไขแผน กรุณาตรวจสอบรูปแบบของไฟล์ของท่านว่าเป็นไฟล์ที่ถูกต้องหรือไม่ หากไม่ถูกต้อง กรุณาดาวน์โหลดไฟล์ต้นฉบับหลังจากนั้นค่อยทำการกรอกข้อมูลและลองอัพโหลดอีกครั้ง</p><br>
+                <p>เคล็ดลับ: หากไฟล์ของท่านมีรูปแบบเหมือนกับไฟล์ต้นฉบับ คราวต่อไปที่ท่านอัพโหลดไฟล์ ท่านสามารถใช้ไฟล์เดิมได้โดยไม่ต้องดาวน์โหลดไฟล์ต้นฉบับอีกครั้ง</p><br>
+                <p>ดาวน์โหลดไฟล์ตั้นต้นได้ที่นี่:</p>
+                <%= link_to 'Download Excel', '/assets/Format_Plan_Idea1.xlsx' %>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">เข้าใจแล้ว</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Head Key -->
+<h1>by_weight</h1>
+<% @plan_a.each do |key, values| %>
+<!-- Key is a province-->
+<% next if key == "upc"%>
+<p class="key-bkk">
+    <%= key %>
+</p><br>
+<div class="d-flex flex-row flex-wrap gap-4 underline">
+    <!-- sub_key is a 0,20 ...-->
+    <% values.each do |sub_key, value| %>
+    <div class="card custom-card-width mb-3 bkk">
+        <div class="card-body">
+            <h5 class="card-title weight bkk">
+                <%= sub_key %>:
+            </h5>
+            <!-- sub_key2 is ems, sameday, express ...-->
+            <% value.each do |sub_key2, sub_value2| %>
+            <p class="card-text weight bkk">
+                <%= sub_key2 %>:
+                <!-- sub_value2 is value of sub_key2-->
+                <input type="text" name="<%= sub_key2 %>" value="<%= sub_value2 %>" class="form-control form-control-sm input-width input1-bkk">
+            </p>
+            <% end %>
+        </div>
+    </div>
+    <% end %>
+</div>
+<% end %>
+<% @plan_a.each do |key, values| %>
+<!-- Key is a province-->
+<% next if key == "bkk"%>
+<p class="key-upc">
+    <%= key %>
+</p><br>
+<div class="d-flex flex-row flex-wrap gap-4 underline">
+    <!-- sub_key is a 0,20 ...-->
+    <% values.each do |sub_key, value| %>
+    <div class="card custom-card-width mb-3 upc">
+        <div class="card-body">
+            <h5 class="card-title weight upc">
+                <%= sub_key %>:
+            </h5>
+            <!-- sub_key2 is ems, sameday, express ...-->
+            <% value.each do |sub_key2, sub_value2| %>
+            <p class="card-text weight upc">
+                <%= sub_key2 %>:
+                <!-- sub_value2 is value of sub_key2-->
+                <input type="text" name="<%= sub_key2 %>" value="<%= sub_value2 %>" class="form-control form-control-sm input-width input1-upc">
+            </p>
+            <% end %>
+        </div>
+    </div>
+    <% end %>
+</div>
+<% end %>
+<!-- plan dimension -->
+<h1>by_dimension</h1>
+<% @plan_b.each do |key, values| %>
+<% next if key == "upc"%>
+<p class="key-dimension">
+    <%= key %>
+</p><br>
+<div class="d-flex flex-row flex-wrap gap-4 underline">
+    <% values.each do |sub_key, value| %>
+    <div class="card custom-card-width mb-3 dimension">
+        <div class="card-body">
+            <h5 class="card-title dimension">
+                <%= sub_key %>:
+            </h5>
+            <% value.each do |sub_key2, sub_value2| %>
+            <p class="card-text dimension">
+                <%= sub_key2 %>:
+                <input type="text" name="<%= sub_key2 %>" value="<%= sub_value2 %>" class="form-control form-control-sm input-width input2 ">
+            </p>
+            <% end %>
+        </div>
+    </div>
+    <% end %>
+</div>
+<% end %>
+<% @plan_b.each do |key, values| %>
+<% next if key == "bkk"%>
+<p class="key-dimension-upc">
+    <%= key %>
+</p><br>
+<div class="d-flex flex-row flex-wrap gap-4 underline">
+    <% values.each do |sub_key, value| %>
+    <div class="card custom-card-width mb-3 dimension-upc">
+        <div class="card-body">
+            <h5 class="card-title dimension-upc">
+                <%= sub_key %>:
+            </h5>
+            <% value.each do |sub_key2, sub_value2| %>
+            <p class="card-text dimension-upc">
+                <%= sub_key2 %>:
+                <input type="text" name="<%= sub_key2 %>" value="<%= sub_value2 %>" class="form-control form-control-sm input-width input2-upc ">
+            </p>
+            <% end %>
+        </div>
+    </div>
+    <% end %>
+</div>
+<% end %>
+<h1>by_size</h1>
+<% @plan_c.each do |key, values| %>
+<% next if key == "upc"%>
+<p class="key-size">
+    <%= key %>
+</p><br>
+<div class="d-flex flex-row flex-wrap gap-4 underline">
+    <% values.each do |sub_key, value| %>
+    <div class="card custom-card-width mb-3 size">
+        <div class="card-body">
+            <h5 class="card-title size">
+                <%= sub_key %>:
+            </h5>
+            <% value.each do |sub_key2, sub_value2| %>
+            <p class="card-text size">
+                <%= sub_key2 %>:
+                <input id="<%= key %><%= sub_key %><%= sub_key2 %>" type="text" name="<%= sub_key2 %>" value="<%= sub_value2 %>" class="form-control form-control-sm input-width input3">
+            </p>
+            <% end %>
+        </div>
+    </div>
+    <% end %>
+</div>
+<% end %>
+<% @plan_c.each do |key, values| %>
+<% next if key == "bkk"%>
+<p class="key-size-upc">
+    <%= key %>
+</p><br>
+<div class="d-flex flex-row flex-wrap gap-4 underline">
+    <% values.each do |sub_key, value| %>
+    <div class="card custom-card-width mb-3 size-upc">
+        <div class="card-body">
+            <h5 class="card-title size-upc">
+                <%= sub_key %>:
+            </h5>
+            <% value.each do |sub_key2, sub_value2| %>
+            <p class="card-text size-upc">
+                <%= sub_key2 %>:
+                <input id="<%= key %><%= sub_key %><%= sub_key2 %>" type="text" name="<%= sub_key2 %>" value="<%= sub_value2 %>" class="form-control form-control-sm input-width input3-upc">
+            </p>
+            <% end %>
+        </div>
+    </div>
+    <% end %>
+</div>
+<% end %>
+<button class="btn btn-primary update-btn mt-2">Update</button>
+<style>
+.d-flex.flex-row.flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card.custom-card-width {
+    width: 300px;
+    /* Set your desired width */
+    background-color: gray;
+}
+
+.underline {
+    border-bottom: 1px solid black;
+}
+</style>
+<script>
+$(document).ready(function() {
+    $('.update-btn').click(function() {
+
+        let formObj = {};
+        let provinceElements = document.querySelectorAll('.key-bkk');
+        provinceElements.forEach(function(provinceElement) {
+            let province = provinceElement.textContent.trim();
+            let cardElements = provinceElement.nextElementSibling.querySelectorAll('.card.custom-card-width.mb-3.bkk');
+
+            let subKeyObj = {};
+            formObj[province] = {}
+            $('.card.custom-card-width.mb-3.bkk').each(function() {
+                let cardTitle = $(this).find('.card-title.weight.bkk').text().trim();
+                let cardText = $(this).find('.card-text.weight.bkk').text().trim();
+
+                // console.log(cardTitle)
+                //subKey is weight
+                let subKey = cardTitle.substring(0, cardTitle.length - 1);
+                // console.log(subKey)
+                //subText is ems ... other
+                let subText = cardText.substring(0, cardText.length - 1);
+
+                let subTextLines = subText.split('\n');
+
+                // console.log('subkey', subKey)
+                // console.log('subText', subText)
+                let inputs = $(this).find('input.input1-bkk');
+
+                let values = {};
+                inputs.each(function() {
+                    let fieldName = $(this).attr('name');
+                    let fieldValue = $(this).val();
+                    values[fieldName] = fieldValue;
+                });
+
+                // console.log(values)
+
+                let subTextObj = {};
+
+                subTextLines.forEach(function(line) {
+                    let keyValue = line.split(':');
+                    let key = keyValue[0].trim();
+                    // console.log(key)
+
+
+                    // let value = keyValue[1].trim();
+                    // subTextObj[key] = value;
+                });
+
+                // console.log(subTextObj);
+                formObj[province][subKey] = values;
+                // console.log(formObj);
+                // console.log(subKeyObj)
+            });
+
+
+        });
+
+        let formObj_weight_upc = {};
+        let provinceElements_upc = document.querySelectorAll('.key-upc');
+        provinceElements_upc.forEach(function(provinceElement) {
+            let province = provinceElement.textContent.trim();
+            let cardElements = provinceElement.nextElementSibling.querySelectorAll('.card.custom-card-width.mb-3.upc');
+
+            let subKeyObj = {};
+            formObj_weight_upc[province] = {}
+            $('.card.custom-card-width.mb-3.upc').each(function() {
+                let cardTitle = $(this).find('.card-title.weight.upc').text().trim();
+                let cardText = $(this).find('.card-text.weight.upc').text().trim();
+
+                // console.log(cardTitle)
+                //subKey is weight
+                let subKey = cardTitle.substring(0, cardTitle.length - 1);
+                // console.log(subKey)
+                //subText is ems ... other
+                let subText = cardText.substring(0, cardText.length - 1);
+
+                let subTextLines = subText.split('\n');
+
+                // console.log('subkey', subKey)
+                // console.log('subText', subText)
+                let inputs = $(this).find('input.input1-upc');
+
+                let values = {};
+                inputs.each(function() {
+                    let fieldName = $(this).attr('name');
+                    let fieldValue = $(this).val();
+                    values[fieldName] = fieldValue;
+                });
+
+                // console.log(values)
+
+                let subTextObj = {};
+
+                subTextLines.forEach(function(line) {
+                    let keyValue = line.split(':');
+                    let key = keyValue[0].trim();
+                    // console.log(key)
+
+
+                    // let value = keyValue[1].trim();
+                    // subTextObj[key] = value;
+                });
+
+                // console.log(subTextObj);
+                formObj_weight_upc[province][subKey] = values;
+                // console.log(formObj_weight_upc);
+                // console.log(subKeyObj)
+            });
+
+
+        });
+        let by_weight = {
+            by_weight: { ...formObj, ...formObj_weight_upc }
+        }
+        // console.log(by_weight)
+
+
+
+        let formObj_dimension = {};
+        let provinceElements_dimension = document.querySelectorAll('.key-dimension')
+        // console.log('provinceElements_dimension', provinceElements_dimension)
+        provinceElements_dimension.forEach(function(provinceElement) {
+            let province = provinceElement.textContent.trim();
+            // console.log('province', province)
+            let cardElements = provinceElement.nextElementSibling.querySelectorAll('.card.custom-card-width.mb-3.dimension');
+
+            let subKeyObj = {}
+            formObj_dimension[province] = {}
+            $('.card.custom-card-width.mb-3.dimension').each(function() {
+                let cardTitle = $(this).find('.card-title.dimension').text().trim();
+                let cardText = $(this).find('.card-text.dimension').text().trim();
+
+                let subKey = cardTitle.substring(0, cardTitle.length - 1);
+                let subText = cardText.substring(0, cardText.length - 1);
+                let subTextLines = subText.split('\n');
+                let inputs = $(this).find('input.input2');
+                let values = {};
+                inputs.each(function() {
+                    let fieldName = $(this).attr('name');
+
+                    let fieldValue = $(this).val();
+                    values[fieldName] = fieldValue;
+                });
+
+                subTextLines.forEach(function(line) {
+                    let keyValue = line.split(':');
+                    let key = keyValue[0].trim();
+                    // console.log(key)
+
+
+                    // let value = keyValue[1].trim();
+                    // subTextObj[key] = value;
+                });
+                formObj_dimension[province][subKey] = values;
+
+            })
+        })
+
+        let formObj_dimension_upc = {};
+        let provinceElements_dimension_upc = document.querySelectorAll('.key-dimension-upc')
+        // console.log('provinceElements_dimension_upc', provinceElements_dimension_upc)
+        provinceElements_dimension_upc.forEach(function(provinceElement) {
+            let province = provinceElement.textContent.trim();
+            // console.log('province', province)
+            let cardElements = provinceElement.nextElementSibling.querySelectorAll('.card.custom-card-width.mb-3.dimension-upc');
+
+            let subKeyObj = {}
+            formObj_dimension_upc[province] = {}
+            $('.card.custom-card-width.mb-3.dimension-upc').each(function() {
+                let cardTitle = $(this).find('.card-title.dimension-upc').text().trim();
+                let cardText = $(this).find('.card-text.dimension-upc').text().trim();
+
+                let subKey = cardTitle.substring(0, cardTitle.length - 1);
+                let subText = cardText.substring(0, cardText.length - 1);
+                let subTextLines = subText.split('\n');
+                let inputs = $(this).find('input.input2-upc');
+                let values = {};
+                inputs.each(function() {
+                    let fieldName = $(this).attr('name');
+
+                    let fieldValue = $(this).val();
+                    values[fieldName] = fieldValue;
+                });
+
+                subTextLines.forEach(function(line) {
+                    let keyValue = line.split(':');
+                    let key = keyValue[0].trim();
+                    // console.log(key)
+
+
+                    // let value = keyValue[1].trim();
+                    // subTextObj[key] = value;
+                });
+                formObj_dimension_upc[province][subKey] = values;
+
+            })
+        })
+        let by_dimension = {
+            by_dimension: { ...formObj_dimension, ...formObj_dimension_upc }
+        }
+        // console.log(by_dimension)
+
+
+        let formObj_size = {};
+        let provinceElements_size = document.querySelectorAll('.key-size');
+        // Retrieve all elements with class 'key-size' and store them in provinceElements_size
+        provinceElements_size.forEach(function(provinceElement) {
+            let province = provinceElement.textContent.trim();
+            // Get the text content of provinceElement and remove leading/trailing whitespace to get the province name
+            let cardElements = provinceElement.nextElementSibling.querySelectorAll('.card.custom-card-width.mb-3.size');
+            // Find the next sibling element of provinceElement and retrieve all elements with class 'card.custom-card-width.mb-3.size'
+
+            let subKeyObj = {};
+            formObj_size[province] = {};
+            // Initialize subKeyObj as an empty object and add an empty object with the province name as the key to formObj_size
+
+            $('.card.custom-card-width.mb-3.size').each(function() {
+                let cardTitle = $(this).find('.card-title.size').text().trim();
+                let cardText = $(this).find('.card-text.size').text().trim();
+                // console.log('cardText', cardText)
+                // Get the text content of card title and card text within each 'card.custom-card-width.mb-3.size' element
+
+                let subKey = cardTitle.substring(0, cardTitle.length - 1);
+                let subText = cardText.substring(0, cardText.length - 1);
+                // Extract the subKey and subText by removing the last character (assumed to be a colon) from cardTitle and cardText
+
+                let subTextLines = subText.split('\n');
+                // Split the subText into an array of lines using the newline character '\n'
+
+                let inputs = $(this).find('input.input3');
+                // console.log('input3', inputs)
+                // Find all input elements with class 'input3' within the current 'card.custom-card-width.mb-3.size' element
+
+                let values = {};
+                inputs.each(function() {
+                    let fieldName = $(this).attr('name');
+                    // console.log('fieldName', fieldName)
+                    let id = $(this).attr('id');
+                    // console.log('id :', id)
+                    let fieldValue = $(this).val();
+                    // console.log('fieldValue', fieldValue)
+
+                    values[fieldName] = fieldValue;
+                });
+                // Iterate over each input element and store its name attribute as the key and its value as the value in the values object
+
+                // console.log('subTextObj', subTextObj)
+
+                // console.log('province', province)
+                // console.log('subKey', subKey)
+                // console.log('values', values)
+
+                formObj_size[province][subKey] = values;
+                // console.log(formObj_size)
+
+            })
+        })
+        // console.log('formObj_size', formObj_size)
+
+        let formObj_size_upc = {};
+        let provinceElements_size_upc = document.querySelectorAll('.key-size-upc');
+        // Retrieve all elements with class 'key-size-upc' and store them in provinceElements_size_upc
+        provinceElements_size_upc.forEach(function(provinceElement) {
+            let province = provinceElement.textContent.trim();
+            // Get the text content of provinceElement and remove leading/trailing whitespace to get the province name
+            let cardElements = provinceElement.nextElementSibling.querySelectorAll('.card.custom-card-width.mb-3.size-upc');
+            // Find the next sibling element of provinceElement and retrieve all elements with class 'card.custom-card-width.mb-3.size-upc'
+
+            let subKeyObj = {};
+            formObj_size_upc[province] = {};
+            // Initialize subKeyObj as an empty object and add an empty object with the province name as the key to formObj_size_upc
+
+            $('.card.custom-card-width.mb-3.size-upc').each(function() {
+                let cardTitle = $(this).find('.card-title.size-upc').text().trim();
+                let cardText = $(this).find('.card-text.size-upc').text().trim();
+                // console.log('cardText', cardText)
+                // Get the text content of card title and card text within each 'card.custom-card-width.mb-3.size-upc' element
+
+                let subKey = cardTitle.substring(0, cardTitle.length - 1);
+                let subText = cardText.substring(0, cardText.length - 1);
+                // Extract the subKey and subText by removing the last character (assumed to be a colon) from cardTitle and cardText
+
+                let subTextLines = subText.split('\n');
+                // Split the subText into an array of lines using the newline character '\n'
+
+                let inputs = $(this).find('input.input3-upc');
+                // console.log('input3', inputs)
+                // Find all input elements with class 'input3' within the current 'card.custom-card-width.mb-3.size-upc' element
+
+                let values = {};
+                inputs.each(function() {
+                    let fieldName = $(this).attr('name');
+                    // console.log('fieldName', fieldName)
+                    let id = $(this).attr('id');
+                    console.log('id :', id)
+                    let fieldValue = $(this).val();
+                    // console.log('fieldValue', fieldValue)
+
+                    values[fieldName] = fieldValue;
+                });
+                // Iterate over each input element and store its name attribute as the key and its value as the value in the values object
+
+                // console.log('subTextObj', subTextObj)
+
+                // console.log('province', province)
+                // console.log('subKey', subKey)
+                // console.log('values', values)
+
+                formObj_size_upc[province][subKey] = values;
+                // console.log(formObj_size_upc)
+
+            })
+        })
+        // console.log('formObj_size_upc', formObj_size_upc)
+        let by_size = {
+            by_size: { ...formObj_size, ...formObj_size_upc }
+        }
+        // console.log('by_size', by_size)
+        //... is merge property in object
+        let formPlan = {
+            ...by_weight,
+            ...by_dimension,
+            ...by_size
+        };
+
+        var planData = JSON.stringify(formPlan);
+        // must be string before send to Ajax
+        console.log('formPlan', formPlan)
+
+        $.ajax({
+            url: '/plan/update',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ form_plan: planData }),
+            success: function(response) {
+                console.log('Post successful:', response);
+            },
+            error: function(error) {
+                console.error('Error:', error);
+            }
+        });
+
+
+    })
+});
+</script>
+<script>
+function validateForm() {
+    var fileInput = document.getElementById("excel_file");
+    var file = fileInput.files[0];
+
+    if (!file) {
+        alert("Please select a file before submitting.");
+        return false; // Prevent form submission
+    }
+
+    return true; // Allow form submission
+}
+</script>
